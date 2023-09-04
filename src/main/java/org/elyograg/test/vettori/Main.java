@@ -86,9 +86,9 @@ public final class Main implements Runnable {
     final Http2SolrClient.Builder cb = new Http2SolrClient.Builder(RequiredOpts.url)
         .withConnectionTimeout(5, TimeUnit.SECONDS).withIdleTimeout(60, TimeUnit.SECONDS)
         .withRequestTimeout(60, TimeUnit.SECONDS);
+    log.info("URL {} collection {}\nQuery: {}", RequiredOpts.url, collection, query);
     try (final SolrClient client = cb.build()) {
       final SolrQuery q = new SolrQuery(query);
-      log.info("Testing URL {} collection {}", RequiredOpts.url, collection);
       final QueryResponse r = client.query(collection, q);
       final long count = r.getResults().getNumFound();
       log.info("numFound: {}", count);
