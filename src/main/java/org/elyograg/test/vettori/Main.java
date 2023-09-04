@@ -84,9 +84,8 @@ public final class Main implements Runnable {
         .withRequestTimeout(60, TimeUnit.SECONDS);
     try (final SolrClient client = cb.build()) {
       final SolrQuery q = new SolrQuery("*:*");
-      final QueryResponse r;
       log.info("Testing URL {} collection {}", RequiredOpts.url, collection);
-      r = client.query(collection, q);
+      final QueryResponse r = client.query(collection, q);
       final long count = r.getResults().getNumFound();
       log.info("numFound: {}", count);
     } catch (final Exception e) {
