@@ -17,7 +17,7 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.ScopeType;
 
 @Command(name = "test_vettori", sortOptions = false, scope = ScopeType.INHERIT, description = ""
-    + "test_vettori: A sample program.", footer = StaticStuff.USAGE_OPTION_SEPARATOR_TEXT)
+    + "test_vettori: A quick program to make an http2 request to a Solr server.", footer = StaticStuff.USAGE_OPTION_SEPARATOR_TEXT)
 public final class Main implements Runnable {
   /**
    * A logger object. Gets the fully qualified class name so this can be used
