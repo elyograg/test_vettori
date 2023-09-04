@@ -43,7 +43,7 @@ public final class Main implements Runnable {
   private static final class RequiredOpts {
     @Option(names = { "-u", "--url" }, arity = "1", scope = ScopeType.INHERIT, description = ""
         + "A URL.  Best to surround the value with quotes. "
-        + "Example: -u \"http://192.168.1.200/solr\"")
+        + "Example: \"http://192.168.1.200:8983/solr\"")
     private static String url;
 
     /** A hidden --exit option used by the shell script. */
