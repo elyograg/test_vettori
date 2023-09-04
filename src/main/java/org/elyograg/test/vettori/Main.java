@@ -82,18 +82,16 @@ public final class Main implements Runnable {
     final Http2SolrClient.Builder cb = new Http2SolrClient.Builder(RequiredOpts.url)
         .withConnectionTimeout(5, TimeUnit.SECONDS).withIdleTimeout(60, TimeUnit.SECONDS)
         .withRequestTimeout(60, TimeUnit.SECONDS);
-    final SolrClient client = cb.build();
-    final SolrQuery q = new SolrQuery("*:*");
-    final QueryResponse r;
-    log.info("Testing URL {} collection {}", RequiredOpts.url, collection);
-    try {
+    try (final SolrClient client = cb.build()) {
+      final SolrQuery q = new SolrQuery("*:*");
+      final QueryResponse r;
+      log.info("Testing URL {} collection {}", RequiredOpts.url, collection);
       r = client.query(collection, q);
+      final long count = r.getResults().getNumFound();
+      log.info("numFound: {}", count);
     } catch (final Exception e) {
       // TODO Auto-generated catch block
       throw new RuntimeException(e);
     }
-
-    final long count = r.getResults().getNumFound();
-    log.info("numFound: {}", count);
   }
 }
