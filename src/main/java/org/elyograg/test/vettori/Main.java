@@ -64,6 +64,11 @@ public final class Main implements Runnable {
           + "The collection to query.  Default: '${DEFAULT-VALUE}'")
   private static String collection;
 
+  @Option(names = { "-q",
+      "--query" }, arity = "1", defaultValue = "*:*", scope = ScopeType.INHERIT, description = ""
+          + "The query string to use.  Default: '${DEFAULT-VALUE}'")
+  private static String query;
+
   public static final void main(final String[] args) {
     final CommandLine cmd = new CommandLine(new Main());
     cmd.setHelpFactory(StaticStuff.createLeftAlignedUsageHelp());
@@ -83,7 +88,7 @@ public final class Main implements Runnable {
         .withConnectionTimeout(5, TimeUnit.SECONDS).withIdleTimeout(60, TimeUnit.SECONDS)
         .withRequestTimeout(60, TimeUnit.SECONDS);
     try (final SolrClient client = cb.build()) {
-      final SolrQuery q = new SolrQuery("*:*");
+      final SolrQuery q = new SolrQuery(query);
       log.info("Testing URL {} collection {}", RequiredOpts.url, collection);
       final QueryResponse r = client.query(collection, q);
       final long count = r.getResults().getNumFound();
