@@ -1,0 +1,59 @@
+plugins {
+  id 'java'
+}
+
+group = 'org.elyograg.test'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+  maven {
+    url "https://artifactory.elyograg.org/artifactory/gradle-release"
+  }
+//  mavenCentral()
+}
+
+dependencies {
+  // SolrJ
+  implementation group: 'org.apache.solr', name: 'solr-solrj', version: '9+'
+  // Easy commandline handling.
+  implementation group: 'info.picocli', name: 'picocli', version: '4+'
+
+  // Logging destination.  Logback automatically includes slf4j-api.
+  implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1+'
+
+  // Shim classes that redirect other logging methods to slf4j.
+  implementation group: 'org.slf4j', name: 'jcl-over-slf4j', version: '2+'
+  implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: '2+'
+  implementation group: 'org.slf4j', name: 'log4j-over-slf4j', version: '2+'
+  implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: '2+'
+
+  // The test framework.  Specifying with testImplementation excludes it from the final jar.
+  testImplementation('junit:junit:4+')
+}
+
+configurations.all {
+  // Globally exclude common transitive logging destination dependencies.
+  exclude group: 'commons-logging'
+  exclude group: 'log4j'
+  exclude group: 'org.apache.logging.log4j'
+  // An example of excluding something else.
+  //exclude group: 'org.apache.httpcomponents'
+}
+
+tasks.named('test') {
+  useJUnitPlatform()
+}
+
+task dist(type: Jar) {
+  archiveBaseName = project.name + '-all'
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+  manifest {
+    attributes 'Implementation-Title': 'test_vettori',
+      'Implementation-Version': version,
+      'Main-Class': 'org.elyograg.test.vettori.Main',
+      'Multi-Release': 'true'
+  }
+  from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+  with jar
+}
