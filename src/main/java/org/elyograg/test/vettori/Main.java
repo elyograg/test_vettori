@@ -31,11 +31,7 @@ public final class Main implements Runnable {
   private static boolean verbose;
 
   /**
-   * An argument group in which one of the options is required. The way the shell
-   * script is set up, only one required is allowed. The "multiplicity" parameter
-   * on the annotation is what makes one of the options in this group required. If
-   * multiple required options are required, the "trial run" in the shell script
-   * will need to be changed. TODO: Deal with that requirement.
+   * An argument group in which one of the options is required.
    */
   @ArgGroup(multiplicity = "1")
   private static RequiredOpts requiredOpts;
@@ -86,14 +82,13 @@ public final class Main implements Runnable {
     final Http2SolrClient.Builder cb = new Http2SolrClient.Builder(RequiredOpts.url)
         .withConnectionTimeout(5, TimeUnit.SECONDS).withIdleTimeout(60, TimeUnit.SECONDS)
         .withRequestTimeout(60, TimeUnit.SECONDS);
-    log.info("URL {} collection {}\nQuery: {}", RequiredOpts.url, collection, query);
+    log.info("Testing\nURL {}\nCollection {}\nQuery: {}", RequiredOpts.url, collection, query);
     try (final SolrClient client = cb.build()) {
       final SolrQuery q = new SolrQuery(query);
       final QueryResponse r = client.query(collection, q);
       final long count = r.getResults().getNumFound();
       log.info("numFound: {}", count);
     } catch (final Exception e) {
-      // TODO Auto-generated catch block
       throw new RuntimeException(e);
     }
   }
