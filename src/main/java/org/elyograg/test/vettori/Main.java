@@ -38,7 +38,7 @@ public final class Main implements Runnable {
 
   private static final class RequiredOpts {
     @Option(names = { "-u", "--url" }, arity = "1", scope = ScopeType.INHERIT, description = ""
-        + "A Solr base URL. Example:\n\"http://192.168.1.200:8983/solr\"")
+        + "A Solr base URL. Example:\nhttp://192.168.1.200:8983/solr")
     private static String url;
 
     /** A hidden --exit option used by the shell script. */
